@@ -67,7 +67,7 @@ public class BookAddController {
 
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Book saved confirmation");
-			alert.setHeaderText("");
+			alert.setHeaderText(null);
 			alert.setContentText(
 					"Sucesfully added book: " + savedBookTo.getTitle() + " by: " + savedBookTo.getAuthors());
 
