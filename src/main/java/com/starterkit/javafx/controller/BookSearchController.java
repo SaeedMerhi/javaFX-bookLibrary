@@ -1,5 +1,6 @@
 package com.starterkit.javafx.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,18 +9,22 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
 import com.starterkit.javafx.data.BookTo;
-import com.starterkit.javafx.dataprovider.DataProvider;
+import com.starterkit.javafx.datahandler.DataHandler;
 import com.starterkit.javafx.model.BookSearch;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class BookSearchController {
 
@@ -49,7 +54,7 @@ public class BookSearchController {
 	@FXML
 	private TableColumn<BookTo, String> bookAuthorsColumn;
 
-	private final DataProvider dataProvider = DataProvider.INSTANCE;
+	private final DataHandler dataHandler = DataHandler.INSTANCE;
 
 	private final BookSearch model = new BookSearch();
 
@@ -91,7 +96,7 @@ public class BookSearchController {
 			protected Collection<BookTo> call() throws Exception {
 				LOG.debug("call() called");
 
-				Collection<BookTo> result = dataProvider.findBooks(model.getBookTitle());
+				Collection<BookTo> result = dataHandler.findBooks(model.getBookTitle());
 
 				return result;
 			}
@@ -120,25 +125,20 @@ public class BookSearchController {
 
 	private void addBookButtonAction() {
 
-		Task<Void> backgroundTask = new Task<Void>() {
+		LOG.debug("call() called");
 
-			@Override
-			protected Void call() throws Exception {
-				LOG.debug("call() called");
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/starterkit/javafx/view/book-add.fxml"),
+				resources);
+		Parent root;
+		try {
+			root = (Parent) loader.load();
+			Scene scene = new Scene(root, 450, 200);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException ex) {
+			LOG.debug("Could not load add-book window ", ex);
+		}
 
-				Collection<BookTo> result = dataProvider.findBooks(model.getBookTitle());
-
-				return null;
-			}
-
-			@Override
-			protected void succeeded() {
-				LOG.debug("succeeded() called");
-
-				// TODO RSmolka show messagebox book has been added
-			}
-		};
-
-		new Thread(backgroundTask).start();
 	}
 }
