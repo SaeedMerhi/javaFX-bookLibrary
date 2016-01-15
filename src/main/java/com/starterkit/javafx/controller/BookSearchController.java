@@ -135,9 +135,18 @@ public class BookSearchController {
 			Scene scene = new Scene(root, 450, 200);
 			Stage stage = new Stage();
 			stage.setScene(scene);
+			/*
+			 * REV: o co chodzi?
+			 */
 			loader.getController().hashCode();
 			stage.show();
+			/*
+			 * REV: okno dodawania ksiazki powinno byc modalne
+			 */
 		} catch (IOException ex) {
+			/*
+			 * REV: obsluga wyjatkow
+			 */
 			LOG.debug("Could not load add-book window ", ex);
 		}
 

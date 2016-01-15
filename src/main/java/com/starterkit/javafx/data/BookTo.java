@@ -44,6 +44,9 @@ public class BookTo {
 		this.authors = authors;
 	}
 
+	/*
+	 * REV: TOsy powiny zawierac tylko dane
+	 */
 	public String mapBookTo2Json() {
 		return "{\"id\":" + getId().intValue() + ",\"title\":\"" + getTitle() + "\",\"authors\":\"" + getAuthors()
 				+ "\"}";

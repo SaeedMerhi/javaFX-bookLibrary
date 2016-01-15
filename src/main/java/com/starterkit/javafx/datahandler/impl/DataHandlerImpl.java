@@ -15,14 +15,22 @@ public class DataHandlerImpl implements DataHandler {
 
 	public Collection<BookTo> findBooks(String bookTitle) {
 		try {
-
+			/*
+			 * REV: te obiekty powinny byc zdefiniowane jako pola klasy i tworzone tylko raz
+			 */
 			Client restClient = Client.create();
+			/*
+			 * REV: adres serwera powinien byc wczytany z pliku konfiguracyjnego
+			 */
 			WebResource restWebResource = restClient.resource("http://localhost:9721/workshop/books-by-title");
 
 			ClientResponse restClientResponse = restWebResource.queryParam("titlePrefix", bookTitle)
 					.accept("application/json").get(ClientResponse.class);
 
 			if (restClientResponse.getStatus() != 200) {
+				/*
+				 * REV: ten wyjatek nie wyleci z tej metody
+				 */
 				throw new RuntimeException("Failed : HTTP error code : " + restClientResponse.getStatus());
 			}
 
@@ -35,10 +43,15 @@ public class DataHandlerImpl implements DataHandler {
 			return books;
 
 		} catch (Exception e) {
-
+			/*
+			 * REV: wyjatek powinien byc wyrzucony wyzej i obsluzony w kontrolerze
+			 */
 			e.printStackTrace();
 		}
 
+		/*
+		 * REV: NPE przy bledzie
+		 */
 		return null;
 	}
 
@@ -48,6 +61,9 @@ public class DataHandlerImpl implements DataHandler {
 			BookTo bookToAdd = new BookTo(bookTitle, bookAuthors);
 			Gson jsonConverter = new Gson();
 
+			/*
+			 * REV: j.w.
+			 */
 			Client restClient = Client.create();
 			WebResource restWebResource = restClient.resource("http://localhost:9721/workshop/book");
 			String jsonBook = jsonConverter.toJson(bookToAdd);
@@ -56,13 +72,18 @@ public class DataHandlerImpl implements DataHandler {
 					jsonBook);
 
 			if (restClientResponse.getStatus() != 200) {
+				/*
+				 * REV: j.w.
+				 */
 				throw new RuntimeException("Failed : HTTP error code : " + restClientResponse.getStatus());
 			}
 
 			return bookToAdd;
 
 		} catch (Exception e) {
-
+			/*
+			 * REV: j.w.
+			 */
 			e.printStackTrace();
 
 		}

@@ -66,6 +66,9 @@ public class BookAddController {
 			stage.close();
 
 			Alert alert = new Alert(AlertType.INFORMATION);
+			/*
+			 * REV: teksty powinny byc pobrane z bundle
+			 */
 			alert.setTitle("Book saved confirmation");
 			alert.setHeaderText(null);
 			alert.setContentText(
