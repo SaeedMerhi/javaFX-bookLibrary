@@ -6,9 +6,7 @@ import java.util.List;
 import com.starterkit.javafx.data.BookTo;
 
 import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -16,7 +14,7 @@ import javafx.collections.FXCollections;
 public class BookSearch {
 
 	private final StringProperty bookTitle = new SimpleStringProperty();
-	private final ObjectProperty<String> bookAuthors = new SimpleObjectProperty<>();
+	private final StringProperty bookAuthors = new SimpleStringProperty();
 	private final ListProperty<BookTo> result = new SimpleListProperty<>(
 			FXCollections.observableList(new ArrayList<>()));
 
@@ -40,7 +38,7 @@ public class BookSearch {
 		bookAuthors.set(value);
 	}
 
-	public ObjectProperty<String> bookAuthorsProperty() {
+	public StringProperty bookAuthorsProperty() {
 		return bookAuthors;
 	}
 
