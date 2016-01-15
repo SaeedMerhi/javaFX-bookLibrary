@@ -12,6 +12,8 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -54,16 +56,23 @@ public class BookAddController {
 	}
 
 	@FXML
-	private BookTo saveButtonAction(ActionEvent event) {
+	private void saveButtonAction(ActionEvent event) {
 		LOG.debug("'Save' button clicked");
 
-		BookTo result = dataHandler.addBook(model.getBookAddTitle(), model.getBookAddAuthors());
+		BookTo savedBookTo = dataHandler.addBook(model.getBookAddTitle(), model.getBookAddAuthors());
+		if (null != savedBookTo) {
+			Node source = (Node) event.getSource();
+			Stage stage = (Stage) source.getScene().getWindow();
+			stage.close();
 
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
-		stage.close();
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Book saved confirmation");
+			alert.setHeaderText("");
+			alert.setContentText(
+					"Sucesfully added book: " + savedBookTo.getTitle() + " by: " + savedBookTo.getAuthors());
 
-		return result;
+			alert.showAndWait();
+		}
+
 	};
-
 }

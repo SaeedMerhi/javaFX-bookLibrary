@@ -135,6 +135,7 @@ public class BookSearchController {
 			Scene scene = new Scene(root, 450, 200);
 			Stage stage = new Stage();
 			stage.setScene(scene);
+			loader.getController().hashCode();
 			stage.show();
 		} catch (IOException ex) {
 			LOG.debug("Could not load add-book window ", ex);
